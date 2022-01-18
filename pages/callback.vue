@@ -1,16 +1,24 @@
 <template>
-  <v-row justify="center">
-    <v-col cols="12" md="8">
-      <v-skeleton-loader
-        class="mx-auto mt-12"
-        type="card,list-item-three-line,list-item-three-line,list-item-three-line,actions"
-      ></v-skeleton-loader>
-    </v-col>
-  </v-row>
+  <v-sheet
+    :color="`grey ${theme.isDark ? 'darken-2' : 'lighten-4'}`"
+    class="pa-3"
+    align="center"
+  >
+    <v-skeleton-loader
+      class="mx-auto"
+      max-width="300"
+      type="card"
+    ></v-skeleton-loader>
+  </v-sheet>
 </template>
 
 <script>
 export default {
   auth: false,
+  inject: {
+      theme: {
+        default: { isDark: false },
+      },
+    },
 }
 </script>

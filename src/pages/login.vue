@@ -4,7 +4,7 @@
       <v-card-title>ログイン</v-card-title>
       <v-divider></v-divider>
       <v-card-actions>
-        <v-btn fab @click="authenticate"><v-icon>mdi-google</v-icon></v-btn>
+        <v-btn @click="authenticate">Googleでログイン<v-icon>mdi-google</v-icon></v-btn>
         <v-spacer></v-spacer>
         <v-btn outlined rounded text>登録してログイン</v-btn>
       </v-card-actions>

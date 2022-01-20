@@ -6,7 +6,8 @@
   >
     <v-skeleton-loader
       class="mx-auto"
-      max-width="300"
+      max-width="600"
+      height="700"
       type="card"
     ></v-skeleton-loader>
   </v-sheet>

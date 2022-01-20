@@ -23,8 +23,8 @@
        <!-- カードコピペ -->
         <v-overlay :value="this.isfinishedChoice" absolute>
           <v-card 
-          class="mx-auto my-12"
-          max-width="374"
+          class="mx-auto my-12 pa-3"
+          width="400"
         >
     <template slot="progress">
       <v-progress-linear
@@ -49,25 +49,43 @@
           readonly
           size="14"
         ></v-rating>
-
+        
         <div class="grey--text ms-4">
-          {{this.choicedData.rating}}
+          {{this.choicedData.rating}} ({{this.choicedData.totalRatings}})
         </div>
       </v-row>
-
-      <div class="grey--text ms-4">
+      <v-row 
+        align="center"
+        class="mx-0"
+      >
+        <div class="grey--text ms-4" v-if="this.choicedData.priceLevel">
           値段帯: {{this.choicedData.priceLevel}}
         </div>
+      </v-row>
+      <v-row 
+        align="center"
+        class="mx-0"
+      >
+        <div class="grey--text ms-4" >
+          今の時間でやってるか: {{this.choicedData.isOpen ? "やってる" : "やってない"}}
+        </div>
+      </v-row>
+      
     </v-card-text>
+    <v-card-actions>
+      <v-btn @click="isfinishedChoice = !isfinishedChoice" color="error"><v-icon>mdi-close</v-icon></v-btn>
+      <v-spacer></v-spacer>
+      <v-btn @click="goDestination" color="primary">ルートを表示する</v-btn>
+    </v-card-actions>
   </v-card>
         </v-overlay>
         
         <v-text-field class="pa-4 pr-7" prepend-icon="mdi-magnify" label="探したいジャンルを入れてください" v-model="searchWord"></v-text-field>
         <v-card-actions class="pa-8">
-          <v-btn v-if="!this.isFinishedMapping" @click="randomChoice">検索する</v-btn>
+          <v-btn v-if="!this.isFinishedMapping" @click="randomChoice" color="primary">検索する</v-btn>
+          <v-btn @click="getChoice" v-if="this.isFinishedMapping" color="success">抽選!</v-btn>
           <v-spacer></v-spacer>
-          <v-btn @click="reset">結果をリセット</v-btn>
-          <v-btn @click="getChoice" v-if="this.isFinishedMapping">抽選!</v-btn>
+          <v-btn @click="reset" color="error">結果をリセット</v-btn>
         </v-card-actions>
         <!-- <PieChart v-if="isFinishedMapping" :chartData="pieData"></PieChart> -->
       </v-card>
@@ -112,10 +130,9 @@ export default{
         "#ff00ff",
         "#ffff0a"
       ],
-      choicedData: {
-
-      },
-      isfinishedChoice: false
+      choicedData: {},
+      isfinishedChoice: false,
+      isDecide: false
     }
   },
   async mounted() {
@@ -125,6 +142,7 @@ export default{
       lng: currentPosTmp.coords.longitude,
     }
     this.maplocation = currentPos
+    console.log('maplocation',this.maplocation);
 
     
   },
@@ -132,8 +150,9 @@ export default{
   },
   methods: {
     reset(){
-      this.markers = []
-      this.searchWord = ""
+      this.markers = [];
+      this.searchWord = "";
+      this.isFinishedMapping = false
     },
     onClickMarker(marker) {
       this.$refs.mapRef.panTo(marker.position)
@@ -159,12 +178,13 @@ export default{
       this.choicedData = this.markers[numrandom];
       this.$refs.mapRef.panTo(this.markers[numrandom].position)
       this.isfinishedChoice = true;
-
+      
     },
 
     setPlaceMakers() {
       let map = this.$refs.mapRef.$mapObject
       let placeService = new google.maps.places.PlacesService(map);
+      
       // Places APIのnearbySearchを使用する。
       placeService.nearbySearch(
         {
@@ -173,10 +193,13 @@ export default{
           type: [this.searchWord]
         },
         async function(results, status) {
+          
           if (status == google.maps.places.PlacesServiceStatus.OK) {
             results.forEach(place => {
+              console.log(place)
+              // console.log(place)
+              // console.log('isOpen',place.opening_hours.isOpen(new Date()))
               // デフォルトのアイコンが大きめなので縮小
-              console.log(place);
               let icon = {
                 url: place.icon, // url
                 scaledSize: new google.maps.Size(30, 30), // scaled size
@@ -190,6 +213,8 @@ export default{
                 icon: icon,
                 title: place.name,
                 id: place.place_id,
+                totalRatings: place.user_ratings_total,
+                // isOpen: place.opening_hours.isOpen
               };
               this.markers.push(marker);
               
@@ -197,6 +222,10 @@ export default{
           }
         }.bind(this)
       );
+    },
+    goDestination() {
+      const url = `https://www.google.com/maps/dir/?api=1&origin=${this.maplocation.lat},${this.maplocation.lng}&destination=${this.choicedData.position}`;
+      window.open(url, '_blank');
     }
   },
 }

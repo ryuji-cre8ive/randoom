@@ -44,6 +44,7 @@ export default {
     '@nuxt/typescript-build',
     // https://go.nuxtjs.dev/vuetify
     '@nuxtjs/vuetify',
+    // 'nuxt-vite',
   ],
 
   // Modules: https://go.nuxtjs.dev/config-modules
@@ -113,7 +114,8 @@ export default {
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
     extend(config, ctx) {},
-    vendor: ['vue2-google-maps'],
-    transpile: [/^vue2-google-maps($|\/)/]
+    // vendor: ['vue2-google-maps'],
+    transpile: [/^vue2-google-maps($|\/)/],
+
   }
 }

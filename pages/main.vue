@@ -214,7 +214,7 @@ export default{
                 title: place.name,
                 id: place.place_id,
                 totalRatings: place.user_ratings_total,
-                // isOpen: place.opening_hours.isOpen
+                isOpen: place.opening_hours.isOpen
               };
               this.markers.push(marker);
               

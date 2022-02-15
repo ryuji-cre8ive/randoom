@@ -1,6 +1,6 @@
 <template>
   <div align="center">
-    <v-card outlined max-width="600" class="ma-4 pa-3 mx-auto mt-5">
+    <v-card outlined max-width="600" class="ma-4 pa-3 mx-auto">
       <v-card-title>ログイン</v-card-title>
       <v-divider></v-divider>
       <v-card-actions>

@@ -1,7 +1,7 @@
 <template>
   <div class="mb-10">
     <v-app-bar floating app color="yellow" elevation="4">
-      <v-app-bar-title class="bar-title">random food</v-app-bar-title>
+      <v-app-bar-title class="bar-title">Randoom</v-app-bar-title>
       <v-row justify="end" >
         <v-btn v-if="!this.$auth.loggedIn" class="ml-auto" @click="goLogin"> ログイン</v-btn>
         <v-btn v-if="this.$auth.loggedIn" class="ml-auto" @click="$auth.logout()">ログアウト</v-btn>
@@ -11,7 +11,7 @@
   </div>
 </template>
 
-<script>
+<script setup>
   export default{
     methods:{
       goLogin(){
@@ -19,6 +19,7 @@
       },
     },
   }
+  
 </script>
 
 <style lang="scss">

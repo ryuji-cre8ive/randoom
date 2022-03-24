@@ -3,30 +3,35 @@
     "name": "callback",
     "path": "/callback",
     "component": "/Users/kokubunryuuji/Devspace/randoom/pages/callback.vue",
-    "chunkName": "pages/callback"
+    "chunkName": "pages/callback",
+    "_name": "_ba8ad85e"
   },
   {
     "name": "inspire",
     "path": "/inspire",
     "component": "/Users/kokubunryuuji/Devspace/randoom/pages/inspire.vue",
-    "chunkName": "pages/inspire"
+    "chunkName": "pages/inspire",
+    "_name": "_360d0304"
   },
   {
     "name": "login",
     "path": "/login",
     "component": "/Users/kokubunryuuji/Devspace/randoom/pages/login.vue",
-    "chunkName": "pages/login"
+    "chunkName": "pages/login",
+    "_name": "_162ba2e6"
   },
   {
     "name": "main",
     "path": "/main",
     "component": "/Users/kokubunryuuji/Devspace/randoom/pages/main.vue",
-    "chunkName": "pages/main"
+    "chunkName": "pages/main",
+    "_name": "_02617945"
   },
   {
     "name": "index",
     "path": "/",
     "component": "/Users/kokubunryuuji/Devspace/randoom/pages/index.vue",
-    "chunkName": "pages/index"
+    "chunkName": "pages/index",
+    "_name": "_2b428b76"
   }
 ]

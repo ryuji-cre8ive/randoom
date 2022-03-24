@@ -1,6 +1,6 @@
 <template>
   <v-sheet
-    :color="`grey ${theme.isDark ? 'darken-2' : 'lighten-4'}`"
+    color="black"
     class="pa-3"
     align="center"
   >
@@ -16,10 +16,5 @@
 <script>
 export default {
   auth: false,
-  inject: {
-      theme: {
-        default: { isDark: false },
-      },
-    },
 }
 </script>

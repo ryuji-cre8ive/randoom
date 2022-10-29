@@ -1,4 +1,6 @@
 import colors from 'vuetify/es5/util/colors'
+import dotenv from 'dotenv'
+dotenv.config()
 
 const HardSourceWebpackPlugin = require('hard-source-webpack-plugin');
 const GOOGLE_CLIENT_ID = process.env.GOOGLE_CLIENT_ID;
@@ -113,10 +115,10 @@ export default {
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
-    extend(config, ctx) {
+    extend(config, _) {
       config.plugins.push(new HardSourceWebpackPlugin())
     },
-    // vendor: ['vue2-google-maps'],
+    vendor: ['vue2-google-maps'],
     transpile: [/^vue2-google-maps($|\/)/],
 
   }

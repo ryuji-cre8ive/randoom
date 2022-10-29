@@ -1,0 +1,36 @@
+runtime: nodejs14
+
+instance_class: F1
+
+handlers:
+  - url: /_nuxt
+    static_dir: .nuxt/dist/client
+    secure: always
+
+  - url: /(.*\.(gif|png|jpg|ico|txt))$
+    static_files: static/\1
+    upload: static/.*\.(gif|png|jpg|ico|txt)$
+    secure: always
+
+  - url: /.*
+    script: auto
+    secure: always
+
+automatic_scaling:
+  # インスタンスの最大数を指定。各バージョンで有効
+  max_instances: 1
+  # アイドル中のインスタンス最小数を指定。トラフィック割当が多いバージョンで有効
+  min_idle_instances: 1
+  # インスタンスが設定値。CPUやスループットの稼働率は最大に設定
+  target_cpu_utilization: 0.95
+  target_throughput_utilization: 0.95
+  max_concurrent_requests: 50
+  min_pending_latency: 3000ms
+  max_pending_latency: automatic
+
+
+env_variables:
+  HOST: '0.0.0.0'
+
+includes:
+  - secret.yaml

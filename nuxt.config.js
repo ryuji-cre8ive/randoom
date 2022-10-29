@@ -2,8 +2,8 @@ import colors from 'vuetify/es5/util/colors'
 import dotenv from 'dotenv'
 dotenv.config()
 
-const HardSourceWebpackPlugin = require('hard-source-webpack-plugin');
-const GOOGLE_CLIENT_ID = process.env.GOOGLE_CLIENT_ID;
+const HardSourceWebpackPlugin = require('hard-source-webpack-plugin')
+const GOOGLE_CLIENT_ID = process.env.GOOGLE_CLIENT_ID
 export default {
 
   // publicRuntimeConfig: {
@@ -45,7 +45,7 @@ export default {
     // https://go.nuxtjs.dev/typescript
     '@nuxt/typescript-build',
     // https://go.nuxtjs.dev/vuetify
-    '@nuxtjs/vuetify',
+    '@nuxtjs/vuetify'
     // 'nuxt-vite',
   ],
 
@@ -77,7 +77,7 @@ export default {
       app: {
         _scheme: 'oauth2',
         authorization_endpoint: 'https://accounts.google.com/o/oauth2/auth',
-        userinfo_endpoint: `https://www.googleapis.com/oauth2/v3/userinfo`,
+        userinfo_endpoint: 'https://www.googleapis.com/oauth2/v3/userinfo',
         scope: [
           'email',
           'profile',
@@ -115,11 +115,10 @@ export default {
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
-    extend(config, _) {
+    extend (config, _) {
       config.plugins.push(new HardSourceWebpackPlugin())
     },
     vendor: ['vue2-google-maps'],
-    transpile: [/^vue2-google-maps($|\/)/],
-
+    transpile: [/^vue2-google-maps($|\/)/]
   }
 }

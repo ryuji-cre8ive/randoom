@@ -80,9 +80,11 @@
   </v-card>
         </v-overlay>
         
-        <v-text-field class="pa-4 pr-7" prepend-icon="mdi-magnify" label="探したいジャンルを入れてください" v-model="searchWord"></v-text-field>
+        <v-select :items="items" label="genre" v-model="searchWord" class="ma-8" @input="changeGenre">
+
+        </v-select>
         <v-card-actions class="pa-8">
-          <v-btn v-if="!this.isFinishedMapping" @click="randomChoice" color="primary">検索する</v-btn>
+          <v-btn v-if="!this.isFinishedMapping" @click="randomChoice(searchWord)" color="primary">検索する</v-btn>
           <v-btn @click="getChoice" v-if="this.isFinishedMapping" color="success">抽選!</v-btn>
           <v-spacer></v-spacer>
           <v-btn @click="reset" color="error">結果をリセット</v-btn>
@@ -113,6 +115,22 @@ export default{
         width: '100%',
         height: '400px',
       },
+      items: [
+        "point_of_interest",
+        "cafe",
+        "store",
+        'meal_takeaway',
+        "restaurant",
+        "food",
+        "supermarket",
+        "place_of_worship",
+        "establishment",
+        "dentist",
+        "health",
+        "shoe_store",
+        "grocery_or_supermarket",
+        "meal_delivery",
+      ],
       mapOptions: {
         streetViewControl: false,
         styles: [],
@@ -146,13 +164,14 @@ export default{
 
     
   },
-  computed:{
-  },
   methods: {
     reset(){
       this.markers = [];
       this.searchWord = "";
       this.isFinishedMapping = false
+    },
+    changeGenre(){
+      this.reset()
     },
     onClickMarker(marker) {
       this.$refs.mapRef.panTo(marker.position)
@@ -165,8 +184,8 @@ export default{
         navigator.geolocation.getCurrentPosition(resolve, reject)
       })
     },
-    randomChoice(){
-      this.setPlaceMakers();
+    randomChoice(searchPlace){
+      this.setPlaceMakers(searchPlace);
       this.isFinishedMapping = true
       
     },
@@ -181,7 +200,7 @@ export default{
       
     },
 
-    setPlaceMakers() {
+    setPlaceMakers(searchPlace) {
       let map = this.$refs.mapRef.$mapObject
       let placeService = new google.maps.places.PlacesService(map);
       
@@ -190,7 +209,7 @@ export default{
         {
           location: new google.maps.LatLng(this.maplocation.lat, this.maplocation.lng),
           radius: 500,
-          type: [this.searchWord]
+          type: [searchPlace]
         },
         async function(results, status) {
           

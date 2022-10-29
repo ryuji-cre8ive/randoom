@@ -1,34 +1,17 @@
 steps:
-  - name: 'gcr.io/cloud-builders/gcloud'
-    entrypoint: /bin/sh
+  - name: "gcr.io/cloud-builders/docker"
     args:
-      - '-c'
-      - |
-        cat << EOF > secret.yaml
-        env_variables:
-          
-        EOF
-  - name: node
-    entrypoint: yarn
-    args:
-      - 'install'
-  - name: node
-    entrypoint: yarn
-    args:
-      - 'build'
-  - name: gcr.io/google.com/cloudsdktool/cloud-sdk
-    id: Deploy
-    entrypoint: gcloud
-    args:
-      - app
-      - deploy
-      - '--appyaml=${_APP_YAML}'
-      - '--project=${PROJECT_ID}'
-      - '--version=${_VERSION}'
-      - '--quiet'
+      [
+        "build",
+        "--build-arg",
+        "_NODE_ENV=$_NODE_ENV",
+        "-t",
+        "asia.gcr.io/$PROJECT_ID/$_SERVICE_NAME:$_TAG_NAME", # service_nameは勝手に決まる
+        ".",
+      ]
 
-options:
-  substitutionOption: ALLOW_LOOSE
 substitutions:
-  _APP_YAML: 'app.yaml'
-  _VERSION: '${COMMIT_SHA}'
+  _NODE_ENV: "production"
+  _TAG_NAME: "latest"
+  _SERVICE_NAME: "randoom"
+images: ["asia.gcr.io/$PROJECT_ID/$_SERVICE_NAME:$_TAG_NAME"]

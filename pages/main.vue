@@ -22,7 +22,7 @@
 
        <!-- カードコピペ -->
         <v-overlay :value="this.isfinishedChoice" absolute>
-          <v-card 
+          <v-card
           class="mx-auto my-12 pa-3"
           width="400"
         >
@@ -49,12 +49,11 @@
           readonly
           size="14"
         ></v-rating>
-        
         <div class="grey--text ms-4">
           {{this.choicedData.rating}} ({{this.choicedData.totalRatings}})
         </div>
       </v-row>
-      <v-row 
+      <v-row
         align="center"
         class="mx-0"
       >
@@ -62,7 +61,7 @@
           値段帯: {{this.choicedData.priceLevel}}
         </div>
       </v-row>
-      <v-row 
+      <v-row
         align="center"
         class="mx-0"
       >
@@ -70,7 +69,6 @@
           今の時間でやってるか: {{this.choicedData.isOpen ? "やってる" : "やってない"}}
         </div>
       </v-row>
-      
     </v-card-text>
     <v-card-actions>
       <v-btn @click="isfinishedChoice = !isfinishedChoice" color="error"><v-icon>mdi-close</v-icon></v-btn>
@@ -79,10 +77,11 @@
     </v-card-actions>
   </v-card>
         </v-overlay>
-        
-        <v-text-field class="pa-4 pr-7" prepend-icon="mdi-magnify" label="探したいジャンルを入れてください" v-model="searchWord"></v-text-field>
+        <v-select :items="items" label="genre" v-model="searchWord" class="ma-8" @input="changeGenre">
+
+        </v-select>
         <v-card-actions class="pa-8">
-          <v-btn v-if="!this.isFinishedMapping" @click="randomChoice" color="primary">検索する</v-btn>
+          <v-btn v-if="!this.isFinishedMapping" @click="randomChoice(searchWord)" color="primary">検索する</v-btn>
           <v-btn @click="getChoice" v-if="this.isFinishedMapping" color="success">抽選!</v-btn>
           <v-spacer></v-spacer>
           <v-btn @click="reset" color="error">結果をリセット</v-btn>
@@ -94,139 +93,153 @@
 </template>
 
 <script>
-// import { Chart, registerables } from "chart.js";
-// import { PieChart } from "vue-chart-3";
-// Chart.register(...registerables);
+// import { Chart, registerables } from "chart.js"
+// import { PieChart } from "vue-chart-3"
+// Chart.register(...registerables)
+import { gmapApi } from 'vue2-google-maps'
 
-export default{
-  middleware: "auth",
+export default {
+  middleware: 'auth',
   components: {
     // PieChart,
   },
-  data(){
+  computed: {
+    google: gmapApi
+  },
+  data () {
     return {
       isFinishedMapping: false,
-      searchWord: "",
+      searchWord: '',
       maplocation: { lng: 0, lat: 0 },
       zoom: 16,
       styleMap: {
         width: '100%',
-        height: '400px',
+        height: '400px'
       },
+      items: [
+        'point_of_interest',
+        'cafe',
+        'store',
+        'meal_takeaway',
+        'restaurant',
+        'food',
+        'supermarket',
+        'place_of_worship',
+        'establishment',
+        'dentist',
+        'health',
+        'shoe_store',
+        'grocery_or_supermarket',
+        'meal_delivery'
+      ],
       mapOptions: {
         streetViewControl: false,
-        styles: [],
+        styles: []
       },
       markers: [],
       colors: [
-        "#ff7675",
-        "#1e90ff",
-        "#00ff7f",
-        "#ffd700",
-        "#ff1e1e",
-        "#89ff14",
-        "#0984e3",
-        "#b8d200",
-        "#ff00ff",
-        "#ffff0a"
+        '#ff7675',
+        '#1e90ff',
+        '#00ff7f',
+        '#ffd700',
+        '#ff1e1e',
+        '#89ff14',
+        '#0984e3',
+        '#b8d200',
+        '#ff00ff',
+        '#ffff0a'
       ],
       choicedData: {},
       isfinishedChoice: false,
       isDecide: false
     }
   },
-  async mounted() {
+  async mounted () {
     const currentPosTmp = await this.getCurrentPosition()
     const currentPos = {
       lat: currentPosTmp.coords.latitude,
-      lng: currentPosTmp.coords.longitude,
+      lng: currentPosTmp.coords.longitude
     }
     this.maplocation = currentPos
-    console.log('maplocation',this.maplocation);
-
-    
-  },
-  computed:{
+    console.log('maplocation', this.maplocation)
   },
   methods: {
-    reset(){
-      this.markers = [];
-      this.searchWord = "";
+    reset () {
+      this.markers = []
+      this.searchWord = ''
       this.isFinishedMapping = false
     },
-    onClickMarker(marker) {
+    changeGenre () {
+      this.reset()
+    },
+    onClickMarker (marker) {
       this.$refs.mapRef.panTo(marker.position)
       this.infoWindowPos = marker.position
       this.marker = marker
       this.infoWinOpen = true
     },
-    getCurrentPosition() {
+    getCurrentPosition () {
       return new Promise(function (resolve, reject) {
         navigator.geolocation.getCurrentPosition(resolve, reject)
       })
     },
-    randomChoice(){
-      this.setPlaceMakers();
+    randomChoice (searchPlace) {
+      this.setPlaceMakers(searchPlace)
       this.isFinishedMapping = true
-      
     },
-    getChoice(){
+    getChoice () {
       console.log(this.markers)
-      const numOfMarkers = this.markers.length;
-      const numrandom = Math.floor(Math.random() * numOfMarkers);
-      console.log(this.markers[numrandom]);
-      this.choicedData = this.markers[numrandom];
+      const numOfMarkers = this.markers.length
+      const numrandom = Math.floor(Math.random() * numOfMarkers)
+      console.log(this.markers[numrandom])
+      this.choicedData = this.markers[numrandom]
       this.$refs.mapRef.panTo(this.markers[numrandom].position)
-      this.isfinishedChoice = true;
-      
+      this.isfinishedChoice = true
     },
 
-    setPlaceMakers() {
-      let map = this.$refs.mapRef.$mapObject
-      let placeService = new google.maps.places.PlacesService(map);
-      
+    setPlaceMakers (searchPlace) {
+      const map = this.$refs.mapRef.$mapObject
+      const placeService = new this.google.maps.places.PlacesService(map)
       // Places APIのnearbySearchを使用する。
       placeService.nearbySearch(
         {
-          location: new google.maps.LatLng(this.maplocation.lat, this.maplocation.lng),
+          location: new this.google.maps.LatLng(this.maplocation.lat, this.maplocation.lng),
           radius: 500,
-          type: [this.searchWord]
+          type: [searchPlace]
         },
-        async function(results, status) {
-          
-          if (status == google.maps.places.PlacesServiceStatus.OK) {
+        async function (results, status) {
+          if (status === this.google.maps.places.PlacesServiceStatus.OK) {
             results.forEach(place => {
               console.log(place)
               // console.log(place)
               // console.log('isOpen',place.opening_hours.isOpen(new Date()))
               // デフォルトのアイコンが大きめなので縮小
-              let icon = {
+              const icon = {
                 url: place.icon, // url
-                scaledSize: new google.maps.Size(30, 30), // scaled size
-                origin: new google.maps.Point(0,0), // origin
-                anchor: new google.maps.Point(0, 0) // anchor
-              };
-              let marker = {
+                scaledSize: new this.google.maps.Size(30, 30), // scaled size
+                origin: new this.google.maps.Point(0, 0), // origin
+                anchor: new this.google.maps.Point(0, 0) // anchor
+              }
+              const marker = {
                 priceLevel: place.price_level,
                 rating: place.rating,
                 position: place.geometry.location,
-                icon: icon,
+                icon,
                 title: place.name,
                 id: place.place_id,
-                totalRatings: place.user_ratings_total,
+                totalRatings: place.user_ratings_total
                 // isOpen: place.opening_hours.isOpen
-              };
-              this.markers.push(marker);
-              
-            });
+              }
+              this.markers.push(marker)
+            })
           }
         }.bind(this)
-      );
+      )
     },
-    goDestination() {
-      const url = `https://www.google.com/maps/dir/?api=1&origin=${this.maplocation.lat},${this.maplocation.lng}&destination=${this.choicedData.position}`;
-      window.open(url, '_blank');
+    goDestination () {
+      const url = `https://www.google.com/maps/dir/?api=1&origin=${this.maplocation.lat},${this.maplocation.lng}&destination=${this.choicedData.position}`
+      window.open(url, '_blank')
     }
-  },
+  }
 }
 </script>

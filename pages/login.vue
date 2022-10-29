@@ -13,10 +13,10 @@
 </template>
 
 <script>
-  export default {
+export default {
   auth: false,
   methods: {
-    authenticate() {
+    authenticate () {
       this.$auth.loginWith('app')
     }
   }

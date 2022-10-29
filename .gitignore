@@ -89,3 +89,5 @@ sw.*
 *.swp
 
 /.nuxt
+
+secret.yaml

@@ -8,6 +8,7 @@
       "ESNext.AsyncIterable",
       "DOM"
     ],
+    "typeRoots": ["./types/vue2-google-maps.d.ts"],
     "esModuleInterop": true,
     "allowJs": true,
     "sourceMap": true,

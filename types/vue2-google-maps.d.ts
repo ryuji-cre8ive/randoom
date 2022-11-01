@@ -1,0 +1,1 @@
+declare module "~/node_modules/vue2-google-maps"

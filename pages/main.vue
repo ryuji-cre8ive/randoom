@@ -77,8 +77,15 @@
     </v-card-actions>
   </v-card>
         </v-overlay>
-        <v-select :items="items" label="genre" v-model="searchWord" class="ma-8" @input="changeGenre">
-
+        <v-select
+          :items="items"
+          label="genre"
+          v-model="searchWord"
+          class="ma-8"
+          @input="changeGenre"
+          item-text="showLabel"
+          item-value="selectedValue"
+          return-object>
         </v-select>
         <v-card-actions class="pa-8">
           <v-btn v-if="!this.isFinishedMapping" @click="randomChoice(searchWord)" color="primary">検索する</v-btn>
@@ -117,20 +124,19 @@ export default {
         height: '400px'
       },
       items: [
-        'point_of_interest',
-        'cafe',
-        'store',
-        'meal_takeaway',
-        'restaurant',
-        'food',
-        'supermarket',
-        'place_of_worship',
-        'establishment',
-        'dentist',
-        'health',
-        'shoe_store',
-        'grocery_or_supermarket',
-        'meal_delivery'
+        { selectedValue: 'point_of_interest', showLabel: '興味深い場所' },
+        { selectedValue: 'cafe', showLabel: 'カフェ' },
+        { selectedValue: 'store', showLabel: 'お店' },
+        { selectedValue: 'meal_takeaway', showLabel: 'テイクアウト' },
+        { selectedValue: 'restaurant', showLabel: 'レストラン' },
+        { selectedValue: 'food', showLabel: '食料' },
+        { selectedValue: 'supermarket', showLabel: 'スーパー' },
+        { selectedValue: 'place_of_worship', showLabel: '礼拝所' },
+        { selectedValue: 'dentist', showLabel: '歯医者' },
+        { selectedValue: 'health', showLabel: '健康' },
+        { selectedValue: 'shoe_store', showLabel: '靴屋さん' },
+        { selectedValue: 'grocery_or_supermarket', showLabel: '日用雑貨店' },
+        { selectedValue: 'meal_delivery', showLabel: 'デリバリー' }
       ],
       mapOptions: {
         streetViewControl: false,
@@ -169,8 +175,9 @@ export default {
       this.searchWord = ''
       this.isFinishedMapping = false
     },
-    changeGenre () {
+    changeGenre (event) {
       this.reset()
+      this.searchWord = event.selectedValue
     },
     onClickMarker (marker) {
       this.$refs.mapRef.panTo(marker.position)
@@ -183,8 +190,8 @@ export default {
         navigator.geolocation.getCurrentPosition(resolve, reject)
       })
     },
-    randomChoice (searchPlace) {
-      this.setPlaceMakers(searchPlace)
+    randomChoice () {
+      this.setPlaceMakers()
       this.isFinishedMapping = true
     },
     getChoice () {
@@ -197,7 +204,7 @@ export default {
       this.isfinishedChoice = true
     },
 
-    setPlaceMakers (searchPlace) {
+    setPlaceMakers () {
       const map = this.$refs.mapRef.$mapObject
       const placeService = new this.google.maps.places.PlacesService(map)
       // Places APIのnearbySearchを使用する。
@@ -205,7 +212,7 @@ export default {
         {
           location: new this.google.maps.LatLng(this.maplocation.lat, this.maplocation.lng),
           radius: 500,
-          type: [searchPlace]
+          type: [this.searchWord]
         },
         async function (results, status) {
           if (status === this.google.maps.places.PlacesServiceStatus.OK) {

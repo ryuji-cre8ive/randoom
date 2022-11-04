@@ -9,12 +9,14 @@
       max-width="600"
       height="700"
       type="card"
-    ></v-skeleton-loader>
+    />
   </v-sheet>
 </template>
 
 <script>
-export default {
+import { Component, Vue } from 'nuxt-property-decorator'
+@Component({
   auth: false
-}
+})
+export default class Callback extends Vue {}
 </script>

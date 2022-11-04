@@ -4,14 +4,16 @@ module.exports = {
     es2021: true
   },
   extends: [
+    '@nuxtjs/eslint-config-typescript',
     'plugin:vue/vue3-essential',
     'standard-with-typescript'
   ],
   overrides: [
   ],
   parserOptions: {
-    ecmaVersion: 'latest',
-    sourceType: 'module'
+    sourceTYpe: 'module',
+    ecmaVersion: 6,
+    env: { es6: true }
   },
   plugins: [
     'vue'

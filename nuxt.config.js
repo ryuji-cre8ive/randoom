@@ -5,12 +5,6 @@ dotenv.config()
 const HardSourceWebpackPlugin = require('hard-source-webpack-plugin')
 const GOOGLE_CLIENT_ID = process.env.GOOGLE_CLIENT_ID
 export default {
-
-  // publicRuntimeConfig: {
-  //   GOOGLE_API_KEY: process.env.GOOGLE_API_KEY,
-  //   GOOGLE_CLIENT_ID: process.env.GOOGLE_CLIENT_ID
-  // },
-  // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
     titleTemplate: '%s - random-food',
     title: 'random-food',
@@ -34,7 +28,7 @@ export default {
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
   plugins: [
-    { src: '~/plugins/vue2-google-maps.ts' }
+    // { src: '~/plugins/vue2-google-maps.ts' }
   ],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
@@ -112,13 +106,16 @@ export default {
       }
     }
   },
+  typescript: {
+    typeCheck: true,
+    ignoreNotFoundWarnings: true
+  },
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
   build: {
     extend (config, _) {
       config.plugins.push(new HardSourceWebpackPlugin())
     },
-    vendor: ['vue2-google-maps'],
     transpile: [/^vue2-google-maps($|\/)/]
   }
 }

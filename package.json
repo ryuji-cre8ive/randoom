@@ -8,7 +8,8 @@
     "start": "nuxt start",
     "generate": "nuxt generate",
     "heroku-postbuild": "npm run build",
-    "lint:precommit": "eslint 'pages/**/*.{ts,tsx,vue}' --max-warnings 0"
+    "lint:precommit": "eslint 'pages/**/*.{ts,tsx,vue}' --max-warnings 0",
+    "clear-cache": "rm -rf node_modules/.cache/hard-source"
   },
   "lint-staged": {
     "src/**/*.{ts,tsx}": "npm run {任意のコマンド}"

@@ -3,11 +3,11 @@
     <v-main >
       <v-card height="700" width="600">
         <GmapMap map-type-id="roadmap"
-          :center="maplocation"
-          :zoom="zoom"
-          :style="styleMap"
-          :options="mapOptions"
-          ref="mapRef">
+                 :center="maplocation"
+                 :zoom="zoom"
+                 :style="styleMap"
+                 :options="mapOptions"
+                 ref="mapRef">
           <GmapMarker
             v-for="(m, index) in markers"
             :key="index"
@@ -20,62 +20,62 @@
           />
         </GmapMap>
 
-       <!-- カードコピペ -->
+        <!-- カードコピペ -->
         <v-overlay :value="this.isfinishedChoice" absolute>
           <v-card
-          class="mx-auto my-12 pa-3"
-          width="400"
-        >
-    <template slot="progress">
-      <v-progress-linear
-        color="deep-purple"
-        height="10"
-        indeterminate
-      ></v-progress-linear>
-    </template>
+            class="mx-auto my-12 pa-3"
+            width="400"
+          >
+            <template slot="progress">
+              <v-progress-linear
+                color="deep-purple"
+                height="10"
+                indeterminate
+              ></v-progress-linear>
+            </template>
 
-    <v-card-title>{{this.choicedData.title}}</v-card-title>
+            <v-card-title>{{this.choicedData.title}}</v-card-title>
 
-    <v-card-text>
-      <v-row
-        align="center"
-        class="mx-0"
-      >
-        <v-rating
-          :value="this.choicedData.rating"
-          color="amber"
-          dense
-          half-increments
-          readonly
-          size="14"
-        ></v-rating>
-        <div class="grey--text ms-4">
-          {{this.choicedData.rating}} ({{this.choicedData.totalRatings}})
-        </div>
-      </v-row>
-      <v-row
-        align="center"
-        class="mx-0"
-      >
-        <div class="grey--text ms-4" v-if="this.choicedData.priceLevel">
-          値段帯: {{this.choicedData.priceLevel}}
-        </div>
-      </v-row>
-      <v-row
-        align="center"
-        class="mx-0"
-      >
-        <div class="grey--text ms-4" >
-          今の時間でやってるか: {{this.choicedData.isOpen ? "やってる" : "やってない"}}
-        </div>
-      </v-row>
-    </v-card-text>
-    <v-card-actions>
-      <v-btn @click="isfinishedChoice = !isfinishedChoice" color="error"><v-icon>mdi-close</v-icon></v-btn>
-      <v-spacer></v-spacer>
-      <v-btn @click="goDestination" color="primary">ルートを表示する</v-btn>
-    </v-card-actions>
-  </v-card>
+            <v-card-text>
+              <v-row
+                align="center"
+                class="mx-0"
+              >
+                <v-rating
+                  :value="this.choicedData.rating"
+                  color="amber"
+                  dense
+                  half-increments
+                  readonly
+                  size="14"
+                ></v-rating>
+                <div class="grey--text ms-4">
+                  {{this.choicedData.rating}} ({{this.choicedData.totalRatings}})
+                </div>
+              </v-row>
+              <v-row
+                align="center"
+                class="mx-0"
+              >
+                <div class="grey--text ms-4" v-if="this.choicedData.priceLevel">
+                  値段帯: {{this.choicedData.priceLevel}}
+                </div>
+              </v-row>
+              <v-row
+                align="center"
+                class="mx-0"
+              >
+                <div class="grey--text ms-4" >
+                  今の時間でやってるか: {{this.choicedData.isOpen ? "やってる" : "やってない"}}
+                </div>
+              </v-row>
+            </v-card-text>
+            <v-card-actions>
+              <v-btn @click="isfinishedChoice = !isfinishedChoice" color="error"><v-icon>mdi-close</v-icon></v-btn>
+              <v-spacer></v-spacer>
+              <v-btn @click="goDestination" color="primary">ルートを表示する</v-btn>
+            </v-card-actions>
+          </v-card>
         </v-overlay>
         <v-select
           :items="items"
@@ -100,16 +100,10 @@
 </template>
 
 <script>
-// import { Chart, registerables } from "chart.js"
-// import { PieChart } from "vue-chart-3"
-// Chart.register(...registerables)
 import { gmapApi } from 'vue2-google-maps'
 
 export default {
   middleware: 'auth',
-  components: {
-    // PieChart,
-  },
   computed: {
     google: gmapApi
   },

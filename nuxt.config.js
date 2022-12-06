@@ -6,10 +6,6 @@ const HardSourceWebpackPlugin = require('hard-source-webpack-plugin')
 const GOOGLE_CLIENT_ID = process.env.GOOGLE_CLIENT_ID
 export default {
 
-  // publicRuntimeConfig: {
-  //   GOOGLE_API_KEY: process.env.GOOGLE_API_KEY,
-  //   GOOGLE_CLIENT_ID: process.env.GOOGLE_CLIENT_ID
-  // },
   // Global page headers: https://go.nuxtjs.dev/config-head
   head: {
     titleTemplate: '%s - random-food',

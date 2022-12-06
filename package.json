@@ -8,7 +8,7 @@
     "start": "nuxt start",
     "generate": "nuxt generate",
     "heroku-postbuild": "npm run build",
-    "lint:precommit": "eslint 'pages/**/*.{ts,tsx,vue}' --max-warnings 0",
+    "lint": "eslint 'pages/**/*.{ts,tsx,vue}' 'components/**/*.{ts,tsx,vue}' --max-warnings 0 --fix",
     "clear-cache": "rm -rf node_modules/.cache/hard-source"
   },
   "lint-staged": {
@@ -37,6 +37,7 @@
   "devDependencies": {
     "@nuxt/types": "^2.15.8",
     "@nuxt/typescript-build": "^2.1.0",
+    "@nuxtjs/eslint-module": "^3.1.0",
     "@nuxtjs/vuetify": "^1.12.3",
     "@typescript-eslint/eslint-plugin": "^5.41.0",
     "eslint": "^8.26.0",

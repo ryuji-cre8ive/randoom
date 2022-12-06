@@ -18,6 +18,7 @@ module.exports = {
   ],
   rules: {
     'vue/multi-word-component-names': 0,
-    'vue/no-deprecated-slot-attribute': 'off'
+    'vue/no-deprecated-slot-attribute': 'off',
+    'vue/html-indent': ['error', 2]
   }
 }

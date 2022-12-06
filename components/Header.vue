@@ -1,24 +1,35 @@
+
 <template>
-  <div class="mb-10">
-    <v-app-bar floating app color="yellow" elevation="4">
-      <v-app-bar-title class="bar-title">random food</v-app-bar-title>
-      <v-row justify="end" >
-        <v-btn v-if="!this.$auth.loggedIn" class="ml-auto" @click="goLogin"> ログイン</v-btn>
-        <v-btn v-if="this.$auth.loggedIn" class="ml-auto" @click="$auth.logout()">ログアウト</v-btn>
-      </v-row>
-      
+  <div>
+    <v-app-bar
+      color="deep-purple accent-4"
+      dense
+      dark
+    >
+      <v-toolbar-title @click="goHome">Randoom</v-toolbar-title>
+      <v-spacer></v-spacer>
+      <v-btn v-if="!this.$auth.loggedIn" class="ml-auto" @click="goLogin"> ログイン</v-btn>
+      <v-btn v-if="this.$auth.loggedIn" class="ml-auto" @click="$auth.logout()">ログアウト</v-btn>
+      <v-menu
+        left
+        bottom
+      >
+      </v-menu>
     </v-app-bar>
   </div>
 </template>
 
 <script>
-  export default{
-    methods:{
-      goLogin(){
-        this.$router.push('/login')
-      },
+export default {
+  methods: {
+    goLogin () {
+      this.$router.push('/login')
     },
+    goHome () {
+      this.$router.push('/')
+    }
   }
+}
 </script>
 
 <style lang="scss">

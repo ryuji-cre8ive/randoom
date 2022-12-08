@@ -77,8 +77,7 @@ export default {
         scope: [
           'email',
           'profile',
-          'openid',
-          'https://www.googleapis.com/auth/drive.metadata.readonly'
+          'openid'
         ],
         access_type: undefined,
         access_token_endpoint: undefined,
